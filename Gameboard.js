@@ -6,6 +6,8 @@ class Gameboard {
         const rows = 10;
         const cols = 10;
         this.gameField = Array.from({ length: rows }, () => Array(cols).fill(0));
+        this.shipCount = 10;
+        this.sunkShips = 0;
     }
 
     receiveAttack(x, y) {
@@ -15,13 +17,21 @@ class Gameboard {
 
             if (currentShip.checkIfSunk()) {
                 currentShip.isSunk = true;
+                ++this.sunkShips;
                 console.log('A ship has been sunken');
+                if (this.hasLost()) {
+                    console.log('You lost');
+                }
             } else {
                 console.log('Parts of the ship remain');
             }
         } else {
             console.log('Miss');
         }
+    }
+
+    hasLost() {
+        return this.shipCount === this.sunkShips;
     }
 
     placeShip(x, y, length, direction) {
