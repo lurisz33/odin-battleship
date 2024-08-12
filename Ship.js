@@ -11,7 +11,7 @@ class Ship {
     }
 
     checkIfSunk() {
-        return length === this.hitCount;
+        return this.length === this.hitCount;
     }
 }
 
