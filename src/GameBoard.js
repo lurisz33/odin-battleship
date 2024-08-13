@@ -34,6 +34,24 @@ class GameBoard {
         return this.shipCount === this.sunkShips;
     }
 
+    populateGameBoardRandom() {
+        const shipLengths = [4, 3, 2, 1, 2, 2, 1, 1, 1, 3];
+        let x = getRandomInt(10);
+        let y = getRandomInt(10);
+        let directionCode = getRandomInt(2);
+        let direction = directionCode === 0 ? 'horizontal' : 'vertical';
+        for (let i = 0; i < shipLengths.length; i++) {
+            while(!this.hasPlace(x, y, shipLengths[i], direction)) {
+                x = getRandomInt(10);
+                y = getRandomInt(10);
+                directionCode = getRandomInt(2);
+                direction = directionCode === 0 ? 'horizontal' : 'vertical';
+            }
+            this.placeShip(x, y, shipLengths[i], direction);
+        }
+    }
+
+
     hasPlace(x, y, length, direction) {
         if (direction === 'horizontal') {
             if (y + length > 10) {
@@ -74,6 +92,10 @@ class GameBoard {
             ++this.shipCount;
         }
     }
+}
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
 }
 
 export default GameBoard;
