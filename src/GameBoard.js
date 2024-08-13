@@ -1,12 +1,12 @@
 import Ship from "./Ship";
 
-class Gameboard {
+class GameBoard {
 
     constructor() {
         const rows = 10;
         const cols = 10;
         this.gameField = Array.from({ length: rows }, () => Array(cols).fill(0));
-        this.shipCount = 10;
+        this.shipCount = 0;
         this.sunkShips = 0;
     }
 
@@ -19,8 +19,8 @@ class Gameboard {
                 currentShip.isSunk = true;
                 ++this.sunkShips;
                 console.log('A ship has been sunken');
-                if (this.hasLost()) {
-                    console.log('You lost');
+                if (this.allShipsSunk()) {
+                    console.log('All ships sunk');
                 }
             } else {
                 console.log('Parts of the ship remain');
@@ -30,7 +30,7 @@ class Gameboard {
         }
     }
 
-    hasLost() {
+    allShipsSunk() {
         return this.shipCount === this.sunkShips;
     }
 
@@ -65,11 +65,14 @@ class Gameboard {
                 for (let i = y; i < y + length; i++) {
                     this.gameField[x][i] = currentShip;
                 }
+            } else {
+                for (let i = x; i < x + length; i++) {
+                    this.gameField[i][y] = currentShip;
+                }
             }
-        } else {
-            for (let i = x; i < x + length; i++) {
-                this.gameField[i][y] = currentShip;
-            }
+            ++this.shipCount;
         }
     }
 }
+
+export default GameBoard;
