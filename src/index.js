@@ -14,24 +14,12 @@ function setupGame() {
     const gameField2 = gameBoard2.gameField;
     createTable(1, 10, 10);
     createTable(2, 10, 10);
-    populateGameBoard(gameBoard1);
-    populateGameBoard(gameBoard2);
+    gameBoard1.populateGameBoardRandom();
+    gameBoard2.populateGameBoardRandom();
     renderGameBoard(1, gameField1);
     renderGameBoard(2, gameField2);
 }
 
-function populateGameBoard(gameBoard) {
-    gameBoard.placeShip(1, 1, 4, 'vertical');
-    gameBoard.placeShip(0, 4, 3, 'vertical');
-    gameBoard.placeShip(1, 8, 2, 'vertical');
-    gameBoard.placeShip(3, 6, 1, 'vertical');
-    gameBoard.placeShip(4, 3, 2, 'horizontal');
-    gameBoard.placeShip(5, 7, 2, 'horizontal');
-    gameBoard.placeShip(7, 4, 1, 'horizontal');
-    gameBoard.placeShip(7, 8, 1, 'horizontal');
-    gameBoard.placeShip(9, 1, 1, 'horizontal');
-    gameBoard.placeShip(9, 5, 3, 'horizontal');
-}
 
 function renderGameBoard(playerId, gameField) {
     const cols = 10;
@@ -40,8 +28,21 @@ function renderGameBoard(playerId, gameField) {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             if (gameField[i][j] instanceof Ship) {
+                const currShip = gameField[i][j];
                 const cell = table.rows[i].cells[j];
-                cell.style.backgroundColor = 'grey';
+                cell.className = 'ship';
+                cell.id = `ship${currShip.length}`;
+                if (playerId === 1) cell.style.backgroundColor = 'grey';
+                if (playerId === 2) {
+                    cell.addEventListener('click', function () {
+                        cell.style.backgroundColor = 'IndianRed';
+                    })
+                }
+            } else {
+                const cell = table.rows[i].cells[j];
+                cell.addEventListener('click', function () {
+                    cell.style.backgroundColor = 'CornflowerBlue';
+                })
             }
         }
     }
@@ -64,3 +65,5 @@ function createTable(playerId, rows, cols) {
     table.id = `player${playerId}Table`;
     gameWindow.appendChild(table);
 }
+
+
