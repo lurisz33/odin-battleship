@@ -1,5 +1,5 @@
 import Ship from "./Ship";
-
+let id = 1;
 class GameBoard {
 
     constructor() {
@@ -34,33 +34,34 @@ class GameBoard {
         return this.shipCount === this.sunkShips;
     }
 
-    placeShip(x, y, length, direction) {
-        let hasPlace = true;
+    hasPlace(x, y, length, direction) {
         if (direction === 'horizontal') {
             if (y + length > 10) {
-                hasPlace = false;
+                return false;
             } else {
                 for (let i = y; i < y + length; i++) {
                     if (this.gameField[x][i] !== 0) {
-                        hasPlace = false;
-                        break;
+                        return false;
                     }
                 }
             }
         } else {
             if (x + length > 10) {
-                hasPlace = false;
+                return false;
             } else {
                 for (let i = x; i < x + length; i++) {
                     if (this.gameField[i][y] !== 0) {
-                        hasPlace = false;
-                        break;
+                        return false;
                     }
                 }
             }
         }
-        if (hasPlace) {
-            const currentShip = new Ship(length);
+        return true;
+    }
+
+    placeShip(x, y, length, direction) {
+        if (this.hasPlace(x, y, length, direction)) {
+            const currentShip = new Ship(this.id++, length);
             if (direction === 'horizontal') {
                 for (let i = y; i < y + length; i++) {
                     this.gameField[x][i] = currentShip;
