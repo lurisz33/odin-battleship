@@ -51,31 +51,45 @@ class GameBoard {
         }
     }
 
-
     hasPlace(x, y, length, direction) {
+        const gridSize = 10;
+
         if (direction === 'horizontal') {
-            if (y + length > 10) {
+            if (y + length > gridSize) {
                 return false;
-            } else {
-                for (let i = y; i < y + length; i++) {
-                    if (this.gameField[x][i] !== 0) {
+            }
+            for (let i = y; i < y + length; i++) {
+                if (this.gameField[x][i] !== 0) {
+                    return false;
+                }
+            }
+            for (let i = Math.max(0, x - 1); i <= Math.min(gridSize - 1, x + 1); i++) {
+                for (let j = Math.max(0, y - 1); j <= Math.min(gridSize - 1, y + length); j++) {
+                    if (this.gameField[i][j] !== 0 && !(i === x && j >= y && j < y + length)) {
                         return false;
                     }
                 }
             }
         } else {
-            if (x + length > 10) {
+            if (x + length > gridSize) {
                 return false;
-            } else {
-                for (let i = x; i < x + length; i++) {
-                    if (this.gameField[i][y] !== 0) {
+            }
+            for (let i = x; i < x + length; i++) {
+                if (this.gameField[i][y] !== 0) {
+                    return false;
+                }
+            }
+            for (let i = Math.max(0, x - 1); i <= Math.min(gridSize - 1, x + length); i++) {
+                for (let j = Math.max(0, y - 1); j <= Math.min(gridSize - 1, y + 1); j++) {
+                    if (this.gameField[i][j] !== 0 && !(j === y && i >= x && i < x + length)) {
                         return false;
                     }
                 }
             }
         }
         return true;
-    }
+}
+
 
     placeShip(x, y, length, direction) {
         if (this.hasPlace(x, y, length, direction)) {
