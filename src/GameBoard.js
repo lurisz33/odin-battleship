@@ -18,15 +18,10 @@ class GameBoard {
             if (currentShip.checkIfSunk()) {
                 currentShip.isSunk = true;
                 ++this.sunkShips;
-                console.log('A ship has been sunken');
                 if (this.allShipsSunk()) {
-                    console.log('All ships sunk');
                 }
             } else {
-                console.log('Parts of the ship remain');
             }
-        } else {
-            console.log('Miss');
         }
     }
 
@@ -108,7 +103,7 @@ class GameBoard {
     }
 }
 
-function getRandomInt(max) {
+export function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
